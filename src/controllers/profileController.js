@@ -310,7 +310,7 @@ const updateProdfile = async (req, res) => {
 
     companyLogo = await uploadFile(req.files[0]);
 
-    let updatedProfile = await profileModel.findByIdAndDelete(
+    let updatedProfile = await profileModel.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }
