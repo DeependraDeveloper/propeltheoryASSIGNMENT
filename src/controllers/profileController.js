@@ -167,7 +167,7 @@ const getProfile = async (req, res) => {
     if (!findProfile)
       return res
         .status(400)
-        .json({ status: false, msg: "please invalid objectid" });
+        .json({ status: false, msg: "profile not found" });
 
     return res
       .status(200)
@@ -177,4 +177,28 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { createProfile, getProfile };
+
+const deleteProfile=async (req, res) => {
+  try {
+    if (!isValidObjectId(req.params.id) && !isValidlength(req.params.id))
+      return res
+        .status(400)
+        .json({ status: false, msg: "please invalid objectid" });
+
+    let findProfile = await profileModel.findById(req.params.id);
+    if (!findProfile)
+      return res
+        .status(400)
+        .json({ status: false, msg: "profile not found" });
+    
+    let deletedProfile=await profileModel.findByIdAndDelete(req.params.id)
+    
+    return res
+      .status(200)
+      .json({ status: false, msg: "profile deleted successfully", data: deletedProfile });
+
+  } catch (err) {
+    res.status(500).json({ status: false, msg: err.message });
+  }
+};
+module.exports = { createProfile, getProfile ,deleteProfile };
