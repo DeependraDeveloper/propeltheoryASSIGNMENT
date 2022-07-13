@@ -1,3 +1,4 @@
+/////////////////////////////////////////////{IMPORTING FILES}//////////////////////////////////////////////////////////////
 const profileModel = require("../models/profileModel");
 const { uploadFile } = require("../awsConfig/config");
 const {
@@ -12,6 +13,8 @@ const {
   isValidUrl,
   isValidSocialUrl,
 } = require("../utils/validators");
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 const createProfile = async (req, res) => {
   try {
@@ -175,30 +178,10 @@ const getProfile = async (req, res) => {
   }
 };
 
-const deleteProfile = async (req, res) => {
-  try {
-    if (!isValidObjectId(req.params.id) && !isValidlength(req.params.id))
-      return res
-        .status(400)
-        .json({ status: false, msg: "please invalid objectid" });
 
-    let findProfile = await profileModel.findById(req.params.id);
-    if (!findProfile)
-      return res.status(400).json({ status: false, msg: "profile not found" });
 
-    let deletedProfile = await profileModel.findByIdAndDelete(req.params.id);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    return res
-      .status(200)
-      .json({
-        status: false,
-        msg: "profile deleted successfully",
-        data: deletedProfile,
-      });
-  } catch (err) {
-    res.status(500).json({ status: false, msg: err.message });
-  }
-};
 
 const updateProdfile = async (req, res) => {
   try {
@@ -344,4 +327,36 @@ const updateProdfile = async (req, res) => {
     res.status(500).json({ status: false, msg: err.message });
   }
 };
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+const deleteProfile = async (req, res) => {
+  try {
+    if (!isValidObjectId(req.params.id) && !isValidlength(req.params.id))
+      return res
+        .status(400)
+        .json({ status: false, msg: "please invalid objectid" });
+
+    let findProfile = await profileModel.findById(req.params.id);
+    if (!findProfile)
+      return res.status(400).json({ status: false, msg: "profile not found" });
+
+    let deletedProfile = await profileModel.findByIdAndDelete(req.params.id);
+
+    return res
+      .status(200)
+      .json({
+        status: false,
+        msg: "profile deleted successfully",
+        data: deletedProfile,
+      });
+  } catch (err) {
+    res.status(500).json({ status: false, msg: err.message });
+  }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = { createProfile, getProfile, deleteProfile, updateProdfile };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
